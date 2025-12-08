@@ -15,7 +15,7 @@ import java.time.Instant;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "prd_id", nullable = false)
     private Long id;
 
     @Column(name = "prd_name", nullable = false, length = 50)
@@ -27,8 +27,13 @@ public class ProductEntity {
     @Column(name = "prd_price", nullable = false)
     private Long prd_price;
 
+    /*
+    Removing quantity from product to inventory
+    at multiple loc will have some quantity of products
+
     @Column(name = "quantity", nullable = false)
     private Long prd_quantity;
+*/
 
     @Column(name = "created_at")
     private Instant created_at;

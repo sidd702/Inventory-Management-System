@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Inventory System
+    name: Product Service
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
