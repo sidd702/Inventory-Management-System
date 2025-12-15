@@ -12,5 +12,5 @@ public class ProductOutputDto {
     private String prd_name;
     private String prd_category;
     private Long prd_price;
-    private Long prd_quantity;
+    //private Long prd_quantity;
 }

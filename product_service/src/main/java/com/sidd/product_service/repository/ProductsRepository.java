@@ -4,6 +4,8 @@ import com.sidd.product_service.entities.ProductEntity;
 import com.sidd.product_service.exceptions.ResourceNotFoundException;
 import com.sidd.product_service.repository.jpa.ProductJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +18,10 @@ public class ProductsRepository {
     @Autowired
     public ProductsRepository(ProductJpaRepository productJpaRepository) {
         this.productJpaRepository = productJpaRepository;
+    }
+
+    public Page<ProductEntity> getAllProductsPaginated(Pageable pageable) {
+        return this.productJpaRepository.findAll(pageable);
     }
 
     public List<ProductEntity> getAllProducts() {

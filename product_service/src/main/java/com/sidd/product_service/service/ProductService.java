@@ -6,22 +6,48 @@ import com.sidd.product_service.entities.ProductEntity;
 import com.sidd.product_service.mappers.ProductMapper;
 import com.sidd.product_service.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductService {
     private final ProductsRepository productsRepository;
     private final ProductMapper productMapper;
 
+    @Autowired
     public ProductService(ProductsRepository productsRepository, ProductMapper productMapper) {
         this.productsRepository = productsRepository;
         this.productMapper = productMapper;
     }
 
-    @Autowired
+
+    public Map<String, Object> getProductsBySortedPage(int page, int size) {
+        String sortBy = "id";
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        Page<ProductEntity> entityPage = this.productsRepository.getAllProductsPaginated(pageable);
+        List<ProductOutputDto> dtoList = this.productMapper.entityToDtoList(entityPage.getContent());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("ProductOutputDto", dtoList);
+        response.put("currentPage", pageable.getPageNumber());
+        response.put("totalPages", entityPage.getTotalPages());
+        response.put("totalElements", entityPage.getTotalElements());
+        response.put("pageSize", entityPage.getSize());
+        response.put("isFirst", entityPage.isFirst());
+        response.put("isLast", entityPage.isLast());
+
+        return response;
+
+    }
+
     public List<ProductOutputDto> getAllProducts() {
         return this.productMapper.entityToDtoList(this.productsRepository.getAllProducts());
     }

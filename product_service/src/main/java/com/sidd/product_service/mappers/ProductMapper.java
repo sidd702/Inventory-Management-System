@@ -11,6 +11,25 @@ import java.util.List;
 public class ProductMapper {
     //using manual mapping instead of mapstruct for learning
 
+    public static ProductOutputDto entityToDto(ProductEntity entity) {
+        return ProductOutputDto.builder()
+                .id(entity.getId())
+                .prd_price(entity.getPrd_price())
+                .prd_name(entity.getPrd_name())
+                .prd_category(entity.getPrd_category())
+                //.prd_quantity(entity.getPrd_quantity())
+                .build();
+    }
+
+    public static ProductEntity dtoToEntity(ProductInputDto dto) {
+        return ProductEntity.builder()
+                .prd_name(dto.getPrd_name())
+                .prd_category(dto.getPrd_category())
+                .prd_price(dto.getPrd_price())
+                //.prd_quantity(dto.getPrd_quantity())
+                .build();
+    }
+
     public List<ProductEntity> dtoListToEntityList(List<ProductInputDto> dtoList) {
         return dtoList.stream()
                 .map(ProductMapper::dtoToEntity)
@@ -21,24 +40,5 @@ public class ProductMapper {
         return entityList.stream()
                 .map(ProductMapper::entityToDto)
                 .toList();
-    }
-
-    public static ProductOutputDto entityToDto(ProductEntity entity) {
-        return ProductOutputDto.builder()
-                .id(entity.getId())
-                .prd_price(entity.getPrd_price())
-                .prd_name(entity.getPrd_name())
-                .prd_category(entity.getPrd_category())
-                .prd_quantity(entity.getPrd_quantity())
-                .build();
-    }
-
-    public static ProductEntity dtoToEntity(ProductInputDto dto) {
-        return ProductEntity.builder()
-                .prd_name(dto.getPrd_name())
-                .prd_category(dto.getPrd_category())
-                .prd_price(dto.getPrd_price())
-                .prd_quantity(dto.getPrd_quantity())
-                .build();
     }
 }

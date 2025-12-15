@@ -9,16 +9,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-
     private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    //http://localhost:8080/products/pages?page=1&size=10
+    @GetMapping("/pages")
+    public ResponseEntity<Map<String, Object>> getProductsByPage
+    (@RequestParam(defaultValue = "0") int page,
+     @RequestParam(defaultValue = "50") int size) {
+
+        return ResponseEntity.ok(this.productService.getProductsBySortedPage(page, size));
     }
 
     @GetMapping("/all")
@@ -40,7 +49,7 @@ public class ProductController {
         if (fetchPrd != null) {
             return new ResponseEntity<>(
                     fetchPrd,
-                    HttpStatus.FOUND
+                    HttpStatus.OK
             );
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
