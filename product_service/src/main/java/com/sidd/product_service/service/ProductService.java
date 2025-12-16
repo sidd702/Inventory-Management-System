@@ -1,5 +1,6 @@
 package com.sidd.product_service.service;
 
+import com.sidd.product_service.customannotation.LogExecutionTime;
 import com.sidd.product_service.dto.input.ProductInputDto;
 import com.sidd.product_service.dto.output.ProductOutputDto;
 import com.sidd.product_service.entities.ProductEntity;
@@ -29,6 +30,7 @@ public class ProductService {
     }
 
 
+    @LogExecutionTime
     public Map<String, Object> getProductsBySortedPage(int page, int size) {
         String sortBy = "id";
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
