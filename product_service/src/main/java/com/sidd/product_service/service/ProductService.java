@@ -3,6 +3,7 @@ package com.sidd.product_service.service;
 import com.sidd.product_service.customannotation.LogExecutionTime;
 import com.sidd.product_service.dto.input.ProductInputDto;
 import com.sidd.product_service.dto.output.ProductOutputDto;
+import com.sidd.product_service.entities.CategoryEntity;
 import com.sidd.product_service.entities.ProductEntity;
 import com.sidd.product_service.mappers.ProductMapper;
 import com.sidd.product_service.repository.ProductsRepository;
@@ -22,13 +23,22 @@ import java.util.Map;
 public class ProductService {
     private final ProductsRepository productsRepository;
     private final ProductMapper productMapper;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductService(ProductsRepository productsRepository, ProductMapper productMapper) {
+    public ProductService(ProductsRepository productsRepository, ProductMapper productMapper, CategoryService categoryService) {
         this.productsRepository = productsRepository;
         this.productMapper = productMapper;
+        this.categoryService = categoryService;
     }
 
+
+    public List<ProductOutputDto> getProductsByCategory(String category) throws Exception {
+        CategoryEntity categoryEntity = this.categoryService.findByCategoryName(category);
+        List<ProductEntity> productEntities = this.productsRepository.findByPrdCategory(categoryEntity);
+
+        return this.productMapper.entityToDtoList(productEntities);
+    }
 
     @LogExecutionTime
     public Map<String, Object> getProductsBySortedPage(int page, int size) {
@@ -61,8 +71,12 @@ public class ProductService {
     public List<ProductOutputDto> addProducts(List<ProductInputDto> productInputDtoList) {
         List<ProductEntity> productEntityList = this.productMapper.dtoListToEntityList(productInputDtoList);
         for (ProductEntity prd : productEntityList) {
-            prd.setCreated_at(Instant.now());
-            prd.setUpdated_at(Instant.now());
+            /*
+            Tax Calculation
+             */
+
+            prd.setCreatedAt(Instant.now());
+            prd.setUpdatedAt(Instant.now());
         }
         return this.productMapper.entityToDtoList(this.productsRepository.saveAllProducts(productEntityList));
     }

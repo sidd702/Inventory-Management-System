@@ -21,6 +21,13 @@ public class ProductController {
         this.productService = productService;
     }
 
+
+    //categories?category=electronics
+    @GetMapping("/categories")
+    public ResponseEntity<List<ProductOutputDto>> getProductsByCategory(@RequestParam String category) throws Exception {
+        return ResponseEntity.ok(this.productService.getProductsByCategory(category));
+    }
+
     //http://localhost:8080/products/pages?page=1&size=10
     @GetMapping("/pages")
     public ResponseEntity<Map<String, Object>> getProductsByPage

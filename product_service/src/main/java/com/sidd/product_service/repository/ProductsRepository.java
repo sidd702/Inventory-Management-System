@@ -1,7 +1,8 @@
 package com.sidd.product_service.repository;
 
+import com.sidd.product_service.entities.CategoryEntity;
 import com.sidd.product_service.entities.ProductEntity;
-import com.sidd.product_service.exceptions.ResourceNotFoundException;
+import com.sidd.product_service.exceptions.ProductNotFoundException;
 import com.sidd.product_service.repository.jpa.ProductJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,10 +32,14 @@ public class ProductsRepository {
 
     public ProductEntity getProductById(Long id) {
         Optional<ProductEntity> optionalProducts = this.productJpaRepository.findById(id);
-        return optionalProducts.orElseThrow(() -> new ResourceNotFoundException("Product of Id " + id + " not found."));
+        return optionalProducts.orElseThrow(() -> new ProductNotFoundException("Product of Id " + id + " not found."));
     }
 
     public List<ProductEntity> saveAllProducts(List<ProductEntity> productEntityList) {
         return this.productJpaRepository.saveAll(productEntityList);
+    }
+
+    public List<ProductEntity> findByPrdCategory(CategoryEntity categoryEntity) {
+        return this.productJpaRepository.findByPrdCategory(categoryEntity);
     }
 }

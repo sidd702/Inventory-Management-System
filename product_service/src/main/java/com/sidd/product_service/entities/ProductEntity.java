@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "inv_products")
+@Table(name = "ps_products")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,13 +19,18 @@ public class ProductEntity {
     private Long id;
 
     @Column(name = "prd_name", nullable = false, length = 50)
-    private String prd_name;
+    private String prdName;
+//    private String prdName;
 
-    @Column(name = "prd_category", nullable = false, length = 50)
-    private String prd_category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prd_category_id")
+    private CategoryEntity prdCategory;
 
     @Column(name = "prd_price", nullable = false)
-    private Long prd_price;
+    private Long prdPrice;
+
+/*    @Column(name = "prd_tax", nullable = false)
+    private Long prdTax;*/
 
     /*
     Removing quantity from product to inventory
@@ -36,8 +41,8 @@ public class ProductEntity {
 */
 
     @Column(name = "created_at")
-    private Instant created_at;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updated_at;
+    private Instant updatedAt;
 }
