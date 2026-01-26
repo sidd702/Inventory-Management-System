@@ -8,6 +8,9 @@ public class InventoryServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(InventoryServiceApplication.class, args);
-        System.out.println("---------------Inventory Service Running.....");
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println("---------------Inventory Service Running on PORT 8081---------------------");
+        }
     }
 }

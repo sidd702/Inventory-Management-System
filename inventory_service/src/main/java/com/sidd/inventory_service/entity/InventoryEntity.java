@@ -24,12 +24,15 @@ public class InventoryEntity {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
-    @Column(name = "warehouse", nullable = false, length = 10)
+    @Column(name = "warehouse",  length = 20)
     private String warehouseLocation;
 
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
-    @Column(name = "low_stock_threshold", nullable = false)
+    @Column(name = "low_stock_threshold")
     private Long lowStockThreshold;
+
+    @Column(name = "created_at")
+    private Instant created_at;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
 }
